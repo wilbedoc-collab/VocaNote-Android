@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.application'
+}
+
+import java.util.Properties
+
+Properties localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+
+def vocaServerUrl = localProps.getProperty('vocanote.serverUrl', 'https://meeting.re2o.xyz')
+def vocaUploadToken = localProps.getProperty('vocanote.uploadToken', '')
+def safeEditFoundation = localProps.getProperty('vocanote.safeEditFoundationEnabled', 'true')
+def trimSplitEnabled = localProps.getProperty('vocanote.trimSplitEnabled', 'false')
+def editGraceSeconds = localProps.getProperty('vocanote.editGraceSeconds', '5')
+
+android {
+    namespace 'com.re2o.recorder'
+    compileSdk 35
+    buildFeatures { buildConfig true }
+    defaultConfig {
+        applicationId 'com.re2o.recorder'
+        minSdk 26
+        targetSdk 35
+        versionCode 42
+        versionName '0.4.2'
+        buildConfigField 'String', 'VOCANOTE_SERVER_URL', "\"${vocaServerUrl}\""
+        buildConfigField 'String', 'VOCANOTE_UPLOAD_TOKEN', "\"${vocaUploadToken}\""
+        buildConfigField 'boolean', 'VOCANOTE_SAFE_EDIT_FOUNDATION_ENABLED', safeEditFoundation
+        buildConfigField 'boolean', 'VOCANOTE_TRIM_SPLIT_ENABLED', trimSplitEnabled
+        buildConfigField 'int', 'VOCANOTE_EDIT_GRACE_SECONDS', editGraceSeconds
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.work:work-runtime:2.11.0'
+    testImplementation 'junit:junit:4.13.2'
+}

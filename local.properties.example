@@ -1,0 +1,6 @@
+# Copy this file to local.properties and fill in local values.
+# Do not commit local.properties.
+
+sdk.dir=/path/to/android/sdk
+vocanote.serverUrl=https://your-server.example.com
+vocanote.uploadToken=YOUR_UPLOAD_TOKEN
